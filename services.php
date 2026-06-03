@@ -1,34 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>The Gentlemen's Bar</title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-</head>
-<body>
-<header>
-    <div class="logo-container">
-        <img src="assets/logo.jpeg" class="logo-small" alt="The Gentlemen's Bar Logo">
+<?php
+// services.php
+include 'includes/header.php';
+?>
+<div class="services-container">
+    
+    <div class="services-grid">
+        <?php foreach ($services as $service): ?>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3><?php echo htmlspecialchars($service['name']); ?></h3>
+                <p class="service-desc"><?php echo htmlspecialchars($service['description']); ?></p>
+                <div class="service-meta">
+                    <span class="service-duration"><?php echo $service['duration']; ?> min</span>
+                    <span class="service-price">R<?php echo number_format($service['price'], 2); ?></span>
+                </div>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="booking_appointment.php?service_id=<?php echo $service['id']; ?>" class="btn-book">Book Now</a>
+                <?php else: ?>
+                    <a href="login.php" class="btn-book">Login to Book</a>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
-        <span class="brand-name">The Gentlemen's Bar</span>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="booking.php">Book Appointment</a>
-        <a href="dashboard.php">Dashboard</a>
-        <a href="login.php">Login</a>
-    </nav>
-</header>
-<div class="hero">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo">
-        
-        <h2>Our Services</h2>
-
-        <p>
-            At The Gentlemen's Bar, we offer a range of premium grooming services including:
-        </p>
-        <p>
-            Book your appointment today and experience the finest grooming services in town!
-        </p>
-    </div>
-<?php include 'footer.php'; ?>
-</body>
-</html>
+</div>
+<?php include 'includes/footer.php'; ?>
