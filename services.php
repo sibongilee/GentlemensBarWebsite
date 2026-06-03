@@ -17,7 +17,18 @@
         <a href="login.php">Login</a>
     </nav>
 </header>
+<div class="hero">
+        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo">
+        
+        <h2>Our Services</h2>
 
+        <p>
+            At The Gentlemen's Bar, we offer a range of premium grooming services including:
+        </p>
+        <p>
+            Book your appointment today and experience the finest grooming services in town!
+        </p>
+    </div>
 <?php include 'footer.php'; ?>
 </body>
 </html>

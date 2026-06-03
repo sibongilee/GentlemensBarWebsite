@@ -193,44 +193,73 @@ button:hover{
     margin: 0 auto 15px;    /* Centers it horizontally and pushes the title down */
     display: block;
 }
+
+
+.dashboard {
+    text-align: center;         /* Forces the headings and text lines to perfectly center */
+    padding: 40px 20px;
+    max-width: 1200px;          /* Prevents the text from stretching too wide on massive screens */
+    margin: 0 auto;             /* Centers the entire dashboard container block */
+}
+
+.dashboard h1 {
+    color: #111111;
+    font-size: 36px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.dashboard .tagline {
+    color: #444444;
+    font-size: 15px;
+    margin-bottom: 45px;        /* Adds a clean gap between text lines and cards */
+    letter-spacing: 0.5px;
+}
+
 /* ===================================
-DASHBOARD
+CARDS GRID SETTINGS
 =================================== */
 
-.dashboard{
-    text-align:center;
-    padding:60px 20px;
+.cards {
+    display: flex;
+    justify-content: center;    /* Keeps the rows centered on screen */
+    align-items: center;
+    gap: 20px;                 /* Clean, even gaps between all card boxes */
+    flex-wrap: wrap;            /* Safely breaks items to a new line on smaller screens */
+    margin-top: 20px;
 }
 
-.dashboard h1{
-    color:#111111;
-    margin-bottom:10px;
+.card-box {
+    width: 240px;               /* Clean box sizing */
+    min-height: 120px;          /* Makes sure all boxes maintain the same structure */
+    padding: 20px;
+    background: #111111;        /* Solid black box fill */
+    color: #ffffff;             /* Crisp white text content */
+    border-radius: 12px;
+    text-decoration: none;
+    text-align: left;           /* Keeps inner card description text left-aligned */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.cards{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    flex-wrap:wrap;
-    margin-top:40px;
+.card-box h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
-.card-box{
-    width:220px;
-    padding:30px 20px;
-    background:#111111;
-    color:white;
-    border:1px solid #e2ded5;
-    border-radius:12px;
-    text-decoration:none;
-    transition:0.3s;
+.card-box p {
+    font-size: 13px;
+    color: #cccccc;             /* Soft light grey text color for card descriptions */
+    line-height: 1.4;
 }
 
-.card-box:hover{
-    background:#e2ded5;
-    color:black;
-    transform:translateY(-5px);
+.card-box:hover {
+    background: #222222;        /* Subtle shift on hover */
+    transform: translateY(-4px); /* Clean, dynamic pop up effect */
 }
+
 
 /* ===================================
 SERVICES & BOOKINGS

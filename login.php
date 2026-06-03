@@ -1,8 +1,8 @@
 <?php
-// PHP Redirect Logic at the very top prevents the "headers already sent" error
-if(isset($_POST['login'])){
+
+if (isset($_POST['login'])) {
     header("Location: dashboard.php");
-    exit();
+    exit(); // Always include exit after a redirect
 }
 ?>
 <!DOCTYPE html>
@@ -34,7 +34,7 @@ if(isset($_POST['login'])){
             <input type="email" placeholder="Email Address" required>
             <input type="password" placeholder="Password" required>
 
-            <button type="submit">Login</button>
+            <button type="submit" name="login">Login</button>
         </form>
 
         <p style="margin-top: 15px; font-size: 14px;">

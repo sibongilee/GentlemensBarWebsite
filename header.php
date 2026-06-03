@@ -11,7 +11,7 @@
         <a href="booking.php">Book Appointment</a>
         <a href="bookings.php">My Bookings</a>
         <a href="payment.php">Payments</a>
-        <a href="login.php">Logout</a>
+        <a href="index.php">Logout</a>
     </nav>
 </header>
 

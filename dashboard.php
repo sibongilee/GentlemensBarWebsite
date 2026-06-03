@@ -5,17 +5,15 @@
     <title>Dashboard | The Gentlemen's Bar</title>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
-
 <body>
     <?php include 'header.php'; ?>
-    <div class="dashbord">
-
-        <h1">Welcome Back</h1>
-
-        <p class="tagline">
-            Manage your appointments and grooming services.
+    <div class="dashboard">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>
+            Manage your appointments, view services, and handle payments all in one place.
         </p>
-
+        </div>
+        
         <div class="cards">
 
             <a href="booking.php" class="card-box">
