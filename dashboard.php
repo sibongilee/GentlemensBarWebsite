@@ -1,62 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Dashboard | The Gentlemen's Bar</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
+
 <body>
+    <?php include 'header.php'; ?>
+    <div class="dashbord">
 
-<div class="navbar">
+        <h1">Welcome Back</h1>
 
-    <div class="brand">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo-small">
-        <span class="brand-name">The Gentlemen's Bar</span>
-    </div>
+        <p class="tagline">
+            Manage your appointments and grooming services.
+        </p>
 
-    <div class="nav-links">
-        <a href="index.php">Home</a>
-        <a href="services.php">Services</a>
-        <a href="booking.php">Book Appointment</a>
-        <a href="bookings.php">My Bookings</a>
-        <a href="payment.php">Payments</a>
-        <a href="login.php">Logout</a>
-    </div>
+        <div class="cards">
 
-</div>
+            <a href="booking.php" class="card-box">
+                <h3>Book Appointment</h3>
+                <p>Schedule a new appointment.</p>
+            </a>
 
-<div class="dashboard">
+            <a href="bookings.php" class="card-box">
+                <h3>My Bookings</h3>
+                <p>View upcoming appointments.</p>
+            </a>
 
-    <h1>Welcome Back</h1>
+            <a href="services.php" class="card-box">
+                <h3>Services</h3>
+                <p>Browse available services.</p>
+            </a>
 
-    <p class="tagline">
-        Manage your appointments and grooming services.
-    </p>
+            <a href="payment.php" class="card-box">
+                <h3>Payments</h3>
+                <p>Manage payment options.</p>
+            </a>
 
-    <div class="cards">
-
-        <a href="booking.php" class="card-box">
-            <h3>Book Appointment</h3>
-            <p>Schedule a new appointment.</p>
-        </a>
-
-        <a href="bookings.php" class="card-box">
-            <h3>My Bookings</h3>
-            <p>View upcoming appointments.</p>
-        </a>
-
-        <a href="services.php" class="card-box">
-            <h3>Services</h3>
-            <p>Browse available services.</p>
-        </a>
-
-        <a href="payment.php" class="card-box">
-            <h3>Payments</h3>
-            <p>Manage payment options.</p>
-        </a>
+        </div>
 
     </div>
 
-</div>
-
-</body>
-</html>
+   

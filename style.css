@@ -1,290 +1,339 @@
-/* =========================
-GENERAL
-========================= */
+/* ===================================
+GENERAL / RESET
+=================================== */
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-font-family:'Segoe UI', sans-serif;
-background-color:#000;
-color:#fff;
-min-height:100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f1ea; /* Signature Clean Beige */
+    color: #111111;      /* Crisp Black for primary text */
+    min-height: 100vh;
 }
 
-/* =========================
-NAVBAR
-========================= */
+/* ===================================
+HEADER & NAVBAR
+=================================== */
 
-.navbar{
-background:#111;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-border-bottom:1px solid rgba(214,194,168,0.2);
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #111111;            /* Sleek Black top header */
+    border-bottom: 2px solid #e2ded5; /* Semicolon fixed here */
+    width: 100%;
 }
 
-.brand{
-display:flex;
-align-items:center;
-gap:12px;
+.logo-container{
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logo-small{
-width:45px;
-height:auto;
+    width: 45px;
+    height: 45px; 
+    border-radius: 50%;
+    object-fit: cover; 
+    border: 1px solid #ffffff;       /* Semicolon fixed here */
 }
 
 .brand-name{
-color:#d6c2a8;
-font-size:22px;
-font-weight:600;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;                 /* Bright White title text against black header */
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.nav-links{
-display:flex;
-gap:25px;
-align-items:center;
+nav{
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.nav-links a{
-color:white;
-text-decoration:none;
-font-weight:500;
-transition:0.3s;
+nav a{
+    color: #ffffff;                 /* Bright White navigation links */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.nav-links a:hover
+nav a:hover{
+    color: #ded9cd;                 /* Soft beige highlight on hover */
+}
 
-/* =========================
-HERO SECTION (HOME PAGE)
-========================= */
+/* ===================================
+HOME PAGE / HERO SECTION
+=================================== */
 
 .hero{
-min-height:80vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+/* Centered, contained, round logo on the page body */
+.hero-logo{
+    display: block;
+    max-width: 150px;
+    width: 100%;
+    height: 150px;                 /* Matched dimensions keep it perfectly round */
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    object-fit: cover;              /* Prevents distortion */
+    border: 3px solid #111111;      /* Bold Black framing border */
 }
 
 .hero h1{
-color:#d6c2a8;
-font-size:48px;
-margin-bottom:20px;
+    color: #111111;                 /* Premium Black heading color */
+    margin-bottom: 10px;
+    font-size: 42px;
+    text-transform: uppercase;
 }
 
 .hero p{
-max-width:700px;
-font-size:18px;
-line-height:1.6;
-margin-bottom:40px;
+    color: #444444;                 /* Dark readable gray for description */
+    margin-bottom: 25px;
+    font-size: 15px;
+    letter-spacing: 1px;
 }
 
 .hero-buttons{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-justify-content:center;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 40px;
 }
 
-/* =========================
-LOGIN & REGISTER
-========================= */
+/* ===================================
+LOGIN, REGISTER & CONTENT CARDS
+=================================== */
 
 .card{
-width:380px;
-margin:80px auto;
-padding:35px;
-background:#111;
-border-radius:15px;
-text-align:center;
-box-shadow:0 0 20px rgba(214,194,168,0.15);
-}
-
-.logo{
-width:140px;
-margin-bottom:15px;
+    width:380px;
+    margin:80px auto;
+    padding:35px;
+    background:#111111;           
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.1);
 }
 
 .card h1,
 .card h2{
-color:#d6c2a8;
-margin-bottom:15px;
+    color:#f4f1ea;              
+    margin-bottom:15px;
 }
 
 .tagline{
-color:#d6c2a8;
-font-size:14px;
-margin-bottom:25px;
-letter-spacing:1px;
+    color:#ded9cd;
+    margin-bottom:25px;
+    font-size:14px;
+    letter-spacing:1px;
 }
+
+/* FORMS */
 
 input,
 select{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:none;
-border-radius:8px;
-background:#1f1f1f;
-color:white;
-font-size:14px;
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+    background:#1f1f1f;
+    color:white;
+    font-size:14px;
 }
 
 input:focus,
-select:focus
-
-button{
-width:100%;
-padding:12px;
-margin-top:15px;
-border:none;
-border-radius:8px;
-background:#d6c2a8;
-color:black;
-font-weight:bold;
-cursor:pointer;
-transition:0.3s;
+select:focus{
+    outline:2px solid #f4f1ea;
 }
 
-button:hover
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:#f4f1ea;            /* Warm beige clickable buttons */
+    color:#111111;                  /* Black button text */
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
 
+button:hover{
+    background:#ffffff;             /* Turns white on hover */
+}
+
+/* Generic content links inside dark contexts */
 .card a{
-color:#d6c2a8;
-text-decoration:none;
+    color:#ded9cd;
+    text-decoration:none;
 }
 
 .card a:hover{
-color:white;
+    color:white;
 }
-
-/* =========================
+.logo {
+    width: 70px;            /* Sets a perfectly small size inside the card */
+    height: 70px;           /* Equal height keeps it a perfect square */
+    border-radius: 50%;     /* Forces the square into a clean circle */
+    object-fit: cover;      /* Prevents any distortion or stretching */
+    border: 2px solid #f4f1ea; /* Beautiful clean beige accent border around the circle */
+    margin: 0 auto 15px;    /* Centers it horizontally and pushes the title down */
+    display: block;
+}
+/* ===================================
 DASHBOARD
-========================= */
+=================================== */
 
 .dashboard{
-padding:60px 20px;
-text-align:center;
+    text-align:center;
+    padding:60px 20px;
 }
 
 .dashboard h1{
-color:#d6c2a8;
-margin-bottom:15px;
+    color:#111111;
+    margin-bottom:10px;
 }
 
 .cards{
-display:flex;
-justify-content:center;
-gap:25px;
-flex-wrap:wrap;
-margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    margin-top:40px;
 }
 
 .card-box{
-width:250px;
-min-height:180px;
-background:#111;
-border:1px solid rgba(214,194,168,0.3);
-border-radius:15px;
-padding:25px;
-color:white;
-text-decoration:none;
-transition:0.3s;
-}
-
-.card-box h3{
-color:#d6c2a8;
-margin-bottom:15px;
-}
-
-.card-box p{
-color:#ddd;
-font-size:14px;
+    width:220px;
+    padding:30px 20px;
+    background:#111111;
+    color:white;
+    border:1px solid #e2ded5;
+    border-radius:12px;
+    text-decoration:none;
+    transition:0.3s;
 }
 
 .card-box:hover{
-transform:translateY(-5px);
-background:#1a1a1a;
+    background:#e2ded5;
+    color:black;
+    transform:translateY(-5px);
 }
 
-/* =========================
-SERVICES
-========================= */
+/* ===================================
+SERVICES & BOOKINGS
+=================================== */
 
 .service-list{
-list-style:none;
-margin-top:15px;
+    list-style:none;
+    margin-top:15px;
 }
 
 .service-list li{
-padding:15px;
-border-bottom:1px solid rgba(214,194,168,0.2);
+    padding:15px;
+    border-bottom:1px solid rgba(17,17,17,0.1);
 }
-
-/* =========================
-BOOKINGS
-========================= */
 
 .booking-item{
-background:#1a1a1a;
-padding:15px;
-border-radius:10px;
-margin:15px 0;
-border-left:4px solid #d6c2a8;
+    background:#ffffff;             /* Crisp clean white background panels */
+    padding:15px;
+    border-radius:10px;
+    margin:15px 0;
+    border-left:4px solid #111111;  /* Accent black border */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+/* ===================================
+FOOTER STYLE
+=================================== */
+
+footer {
+    background: #111111;            
+    color: #ffffff;                
+    padding: 20px 40px;
+    margin-top: auto;               
+    border-top: 2px solid #e2ded5; 
+    width: 100%;
 }
 
-/* =========================
-FOOTER
-========================= */
-
-.footer{
-text-align:center;
-padding:20px;
-color:#999;
-border-top:1px solid rgba(214,194,168,0.1);
-margin-top:50px;
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Pushes copyright to left, SiboSync to right */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 14px;
+    letter-spacing: 0.5px;
 }
 
-/* =========================
-MOBILE RESPONSIVE
-========================= */
+.footer-content p {
+    color: #aaaaaa;                 /* Soft silver-gray for regular footer text */
+    margin: 0;
+}
+
+.footer-content .credits {
+    font-weight: 500;
+}
+
+/* Gives your brand agency name a standout clean white highlight */
+.footer-content .credits span {
+    color: #ffffff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Small adjustments to make sure the body layout accommodates the sticky footer */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media(max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+/* ===================================
+MOBILE DESIGN
+=================================== */
 
 @media(max-width:768px){
+    header{
+        flex-direction:column;
+        gap:15px;
+        padding: 20px;
+    }
 
+    nav{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap: 15px;
+    }
 
-.navbar{
-    flex-direction:column;
-    gap:15px;
-    padding:20px;
+    .card{
+        width:90%;
+    }
+
+    .cards{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .card-box{
+        width:90%;
+    }
 }
-
-.nav-links{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
-}
-
-.hero h1{
-    font-size:32px;
-}
-
-.card{
-    width:90%;
-}
-
-.cards{
-    flex-direction:column;
-    align-items:center;
-}
-
-.card-box{
-    width:90%;
-}
-
