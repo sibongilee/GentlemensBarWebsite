@@ -90,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
 ?>
 <div class="booking-container">
     <div class="page-header">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="hero-logo">
         <h1>Book an Appointment</h1>
         <p>Schedule your next grooming session with us.</p>
     </div>
