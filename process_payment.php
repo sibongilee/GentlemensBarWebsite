@@ -1,83 +1,106 @@
 <?php
-// payment.php
-include 'includes/header.php';
+session_start();
 
-// Redirect if not logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-$success = isset($_SESSION['payment_success']) ? $_SESSION['payment_success'] : '';
-$error = isset($_SESSION['payment_error']) ? $_SESSION['payment_error'] : '';
-unset($_SESSION['payment_success']);
-unset($_SESSION['payment_error']);
-
-// Get pending payments
-$pending_payments = [];
-foreach ($_SESSION['payments'] as $payment) {
-    if ($payment['status'] == 'pending') {
-        // Find corresponding booking
-        foreach ($_SESSION['bookings'] as $booking) {
-            if ($booking['payment_id'] == $payment['id']) {
-                $pending_payments[] = [
-                    'payment_id' => $payment['id'],
-                    'booking_id' => $booking['id'],
-                    'service_name' => $booking['service_name'],
-                    'appointment_date' => $booking['date'],
-                    'appointment_time' => $booking['time'],
-                    'amount' => $payment['amount']
-                ];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['process_payment'])) {
+    $payment_id = $_POST['payment_id'];
+    $payment_method = $_POST['payment_method'];
+    
+    // Find the payment in session
+    if (isset($_SESSION['payments'])) {
+        foreach ($_SESSION['payments'] as &$payment) {
+            if ($payment['id'] == $payment_id) {
+                
+                // If card payment, validate card details
+                if ($payment_method == 'card') {
+                    $card_name = isset($_POST['card_name']) ? trim($_POST['card_name']) : '';
+                    $card_number = isset($_POST['card_number']) ? preg_replace('/\s/', '', $_POST['card_number']) : '';
+                    $expiry_month = isset($_POST['card_expiry_month']) ? $_POST['card_expiry_month'] : '';
+                    $expiry_year = isset($_POST['card_expiry_year']) ? $_POST['card_expiry_year'] : '';
+                    $cvv = isset($_POST['card_cvv']) ? $_POST['card_cvv'] : '';
+                    $receipt_email = isset($_POST['receipt_email']) ? $_POST['receipt_email'] : '';
+                    
+                    // Validate card details
+                    $errors = [];
+                    
+                    if (empty($card_name)) {
+                        $errors[] = "Cardholder name is required.";
+                    }
+                    
+                    if (empty($card_number) || strlen($card_number) < 15) {
+                        $errors[] = "Valid card number is required.";
+                    }
+                    
+                    if (empty($expiry_month) || $expiry_month < 1 || $expiry_month > 12) {
+                        $errors[] = "Valid expiry month is required.";
+                    }
+                    
+                    if (empty($expiry_year) || strlen($expiry_year) != 2) {
+                        $errors[] = "Valid expiry year is required.";
+                    }
+                    
+                    if (empty($cvv) || strlen($cvv) < 3) {
+                        $errors[] = "Valid CVV is required.";
+                    }
+                    
+                    if (!empty($errors)) {
+                        $_SESSION['payment_error'] = implode(" ", $errors);
+                        header("Location: payment.php");
+                        exit();
+                    }
+                    
+                    // Process card payment 
+                    $transaction_id = 'TXN' . time() . rand(1000, 9999);
+                    $masked_card = '**** **** **** ' . substr($card_number, -4);
+                    
+                    // Store card payment record
+                    $card_payment_record = [
+                        'transaction_id' => $transaction_id,
+                        'cardholder_name' => $card_name,
+                        'masked_card' => $masked_card,
+                        'receipt_email' => $receipt_email,
+                        'payment_date' => date('Y-m-d H:i:s')
+                    ];
+                    
+                    $_SESSION['last_card_payment'] = $card_payment_record;
+                    
+                    $_SESSION['payment_success'] = "Payment of R " . number_format($payment['amount'], 2) . " processed successfully via " . strtoupper($payment_method) . ".\nTransaction ID: " . $transaction_id . "\nCard: " . $masked_card;
+                    
+                    // Send receipt email (mock)
+                    if (!empty($receipt_email)) {
+                        // In production, send actual email here
+                        $_SESSION['payment_success'] .= "\nReceipt sent to " . $receipt_email;
+                    }
+                    
+                } else {
+                    // Cash payment - no card details needed
+                    $_SESSION['payment_success'] = "Payment of R " . number_format($payment['amount'], 2) . " confirmed via " . strtoupper($payment_method) . ". Please pay at the counter.";
+                }
+                
+                // Update payment status
+                $payment['status'] = 'completed';
+                $payment['payment_method'] = $payment_method;
+                $payment['payment_date'] = date('Y-m-d H:i:s');
+                
+                // Update booking status
+                if (isset($_SESSION['bookings'])) {
+                    foreach ($_SESSION['bookings'] as &$booking) {
+                        if (isset($booking['payment_id']) && $booking['payment_id'] == $payment_id) {
+                            $booking['payment_status'] = 'paid';
+                            $booking['booking_status'] = 'confirmed';
+                            break;
+                        }
+                    }
+                }
+                
                 break;
             }
         }
     }
+    
+    header("Location: payment.php");
+    exit();
+} else {
+    header("Location: payment.php");
+    exit();
 }
 ?>
-<div class="payment-container">
-    <div class="page-header">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="hero-logo">
-        <h1>Payments</h1>
-        <p>Complete your payment to confirm your appointment.</p>
-    </div>
-    
-    <?php if ($error): ?>
-        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
-    <?php if ($success): ?>
-        <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
-    <?php endif; ?>
-    
-    <?php if (empty($pending_payments)): ?>
-        <div class="empty-state">
-            <p>You have no pending payments.</p>
-            <a href="booking_appointment.php" class="btn-primary">Book an Appointment</a>
-        </div>
-    <?php else: ?>
-        <div class="payments-list">
-            <h2>Pending Payments</h2>
-            <?php foreach ($pending_payments as $payment): ?>
-                <div class="payment-card">
-                    <div class="payment-details">
-                        <h3><?php echo htmlspecialchars($payment['service_name']); ?></h3>
-                        <p><strong>Appointment:</strong> <?php echo date('F j, Y', strtotime($payment['appointment_date'])); ?> at <?php echo date('g:i A', strtotime($payment['appointment_time'])); ?></p>
-                        <p><strong>Amount Due:</strong> $<?php echo number_format($payment['amount'], 2); ?></p>
-                    </div>
-                    <div class="payment-actions">
-                        <form method="POST" action="process_payment.php">
-                            <input type="hidden" name="payment_id" value="<?php echo $payment['payment_id']; ?>">
-                            <select name="payment_method" required>
-                                <option value="">Select Payment Method</option>
-                                <option value="cash">Cash (Pay at counter)</option>
-                                <option value="card">Credit/Debit Card</option>
-                                <option value="mobile_money">Mobile Money</option>
-                            </select>
-                            <button type="submit" name="process_payment" class="btn-primary">Pay Now</button>
-                        </form>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</div>
-<?php include 'includes/footer.php'; ?>
