@@ -2,7 +2,6 @@
 // booking_appointment.php
 include 'includes/header.php';
 
-// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -10,11 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 
 $error = '';
 $success = '';
-
-// Pre-select service if passed via GET
 $selected_service = isset($_GET['service_id']) ? (int)$_GET['service_id'] : '';
 
-// Time slots available
 $time_slots = [
     '09:00' => '9:00 AM',
     '09:30' => '9:30 AM',
@@ -47,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
     } else {
         $service = $services[$service_id];
         
-        // Create new booking
         $booking_id = count($_SESSION['bookings']) + 1;
         $new_booking = [
             'id' => $booking_id,
@@ -65,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
         
         $_SESSION['bookings'][] = $new_booking;
         
-        // Create pending payment record
         $payment_id = count($_SESSION['payments']) + 1;
         $_SESSION['payments'][] = [
             'id' => $payment_id,
@@ -76,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
             'transaction_id' => null
         ];
         
-        // Update booking with payment_id
         foreach ($_SESSION['bookings'] as &$booking) {
             if ($booking['id'] == $booking_id) {
                 $booking['payment_id'] = $payment_id;
@@ -109,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
                     <option value="">-- Choose a service --</option>
                     <?php foreach ($services as $service): ?>
                         <option value="<?php echo $service['id']; ?>" <?php echo ($selected_service == $service['id']) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($service['name']); ?> - R<?php echo number_format($service['price'], 2); ?> (<?php echo $service['duration']; ?> min)
+                            <?php echo htmlspecialchars($service['name']); ?> - R <?php echo number_format($service['price'], 2); ?> (<?php echo $service['duration']; ?> min)
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -129,18 +122,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
                     <?php endforeach; ?>
                 </select>
             </div>
-            <!-- Add a review step before final booking -->
-            <div id="bookingSummary" class="booking-summary" style="display:none;">
-                <h3>Review Your Booking</h3>
-                <p>Service: <span id="summaryService"></span></p>
-                <p>Date: <span id="summaryDate"></span></p>
-                <p>Time: <span id="summaryTime"></span></p>
-                <p>Total: R <span id="summaryPrice"></span></p>
-                <button type="button" onclick="confirmBooking()">Confirm Booking</button>
-                <button type="button" onclick="editBooking()">Edit</button>
-            </div>
+            
             <button type="submit" name="book_appointment" class="btn-primary">Book Appointment</button>
+        
         </form>
     </div>
+    </div><br><br>
 </div>
 <?php include 'includes/footer.php'; ?>
