@@ -1,5 +1,4 @@
 <?php
-// register.php
 include 'includes/header.php';
 
 $error = '';
@@ -19,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     } elseif (strlen($password) < 4) {
         $error = 'Password must be at least 4 characters.';
     } else {
-        // Demo registration - store in session
         $_SESSION['user_id'] = 1;
         $_SESSION['user_name'] = $full_name;
         $_SESSION['user_email'] = $email;
@@ -33,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 <div class="card">
     <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo">
     <h2>Create Account</h2>
+    <p class="tagline">First-class grooming starts here.</p>
     
     <?php if ($error): ?>
         <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
         <button type="submit" name="register">Register</button>
     </form>
-    <p style="margin-top: 15px; font-size: 14px; color: #888;">
+    <p style="margin-top: 15px; font-size: 14px;">
         Already have an account? 
         <a href="login.php" style="font-weight: bold;">Login Here</a>
     </p>
