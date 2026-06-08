@@ -79,6 +79,8 @@ nav a:hover {
 /* ===================================
 MOBILE MENU STYLES
 =================================== */
+
+/* Hide mobile menu button on desktop */
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -89,10 +91,26 @@ MOBILE MENU STYLES
     padding: 5px 10px;
 }
 
+/* Desktop navigation - visible by default */
+nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
 /* Responsive Breakpoints */
 @media (max-width: 768px) {
     .mobile-menu-btn {
         display: block;
+    }
+    
+    header {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+    }
+    
+    .logo-container {
+        flex: 1;
     }
     
     nav {
@@ -125,6 +143,16 @@ MOBILE MENU STYLES
         border-bottom: none;
     }
     
+    nav a:hover {
+        background: #333333;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        top: 65px;
+    }
+}
     header {
         flex-wrap: wrap;
         padding: 10px 20px;
@@ -142,7 +170,6 @@ MOBILE MENU STYLES
     .brand-name {
         font-size: 18px;
     }
-}
 
 @media (max-width: 480px) {
     nav {
