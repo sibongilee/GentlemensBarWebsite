@@ -10,7 +10,7 @@ $services = [
     4 => ['id' => 4, 'name' => 'Executive Package', 'description' => 'Haircut + Beard Trim + Hot Towel Shave', 'duration' => 60, 'price' => 1425.00],
     5 => ['id' => 5, 'name' => 'Hair Styling', 'description' => 'Professional styling with premium products', 'duration' => 20, 'price' => 380.00],
     6 => ['id' => 6, 'name' => 'Head Massage', 'description' => 'Relaxing head and scalp massage', 'duration' => 15, 'price' => 285.00],
-    ];
+];
 
 // Initialize user bookings array in session if not exists
 if (!isset($_SESSION['bookings'])) {
@@ -38,6 +38,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <img src="assets/logo.jpeg" class="logo-small" alt="The Gentlemen's Bar Logo">
         <span class="brand-name">The Gentlemen's Bar</span>
     </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     <nav>
         <a href="index.php">Home</a>
         <a href="services.php">Services</a>
@@ -48,7 +49,34 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <a href="payment.php">Payments</a>
             <a href="logout.php">Logout</a>
         <?php else: ?>
+            <a href="register.php">Register</a>
             <a href="login.php">Login</a>
         <?php endif; ?>
     </nav>
 </header>
+
+<script>
+function toggleMobileMenu() {
+    const nav = document.querySelector('header nav');
+    const btn = document.querySelector('.mobile-menu-btn');
+    nav.classList.toggle('show');
+    
+    if (nav.classList.contains('show')) {
+        btn.innerHTML = '✕';
+    } else {
+        btn.innerHTML = '☰';
+    }
+}
+
+// Close menu when clicking on a link
+document.querySelectorAll('header nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        const nav = document.querySelector('header nav');
+        const btn = document.querySelector('.mobile-menu-btn');
+        if (nav.classList.contains('show')) {
+            nav.classList.remove('show');
+            btn.innerHTML = '☰';
+        }
+    });
+});
+</script>
