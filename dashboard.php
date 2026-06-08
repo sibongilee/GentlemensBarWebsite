@@ -59,3 +59,4 @@ foreach ($_SESSION['payments'] as $payment) {
     </a>
 </div>
 <?php include 'includes/footer.php'; ?>
+
