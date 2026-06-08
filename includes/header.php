@@ -48,7 +48,6 @@ $isLoggedIn = isset($_SESSION['user_id']);
             <a href="payment.php">Payments</a>
             <a href="logout.php">Logout</a>
         <?php else: ?>
-            <a href="dashboard.php">Dashboard</a>
             <a href="login.php">Login</a>
         <?php endif; ?>
     </nav>
