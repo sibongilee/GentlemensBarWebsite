@@ -2,13 +2,11 @@
 // bookings.php
 include 'includes/header.php';
 
-// Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Handle cancellation
 if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
     $booking_id = (int)$_POST['booking_id'];
     foreach ($_SESSION['bookings'] as &$booking) {
@@ -19,12 +17,10 @@ if (isset($_POST['cancel_booking']) && isset($_POST['booking_id'])) {
     }
 }
 
-// Get user's bookings (all from session)
 $user_bookings = array_reverse($_SESSION['bookings']);
 ?>
 <div class="bookings-container">
     <div class="page-header">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="hero-logo">
         <h1>My Bookings</h1>
         <p>Here you can view and manage your upcoming appointments.</p>
     </div>
@@ -45,10 +41,10 @@ $user_bookings = array_reverse($_SESSION['bookings']);
                         <h3><?php echo htmlspecialchars($booking['service_name']); ?></h3>
                         <p class="booking-datetime">
                             <strong>Date:</strong> <?php echo date('F j, Y', strtotime($booking['date'])); ?><br>
-                            <strong>Time:</strong> <?php echo date('g:i A', strtotime($booking['time'])); ?>
+                            <strong>Time:</b> <?php echo date('g:i A', strtotime($booking['time'])); ?>
                         </p>
                         <p class="booking-duration"><strong>Duration:</strong> <?php echo $booking['duration']; ?> minutes</p>
-                        <p class="booking-price"><strong>Price:</strong> R<?php echo number_format($booking['price'], 2); ?></p>
+                        <p class="booking-price"><strong>Price:</strong> R <?php echo number_format($booking['price'], 2); ?></p>
                         <p class="booking-payment">
                             <strong>Payment:</strong> 
                             <span class="payment-status <?php echo $booking['payment_status']; ?>">
@@ -71,5 +67,5 @@ $user_bookings = array_reverse($_SESSION['bookings']);
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-</div>
+</div><br><br>
 <?php include 'includes/footer.php'; ?>
