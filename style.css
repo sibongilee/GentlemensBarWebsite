@@ -280,6 +280,7 @@ HOME PAGE / HERO SECTION
     gap: 25px;
     flex-wrap: wrap;
     margin-top: 40px;
+    background: none;
 }
 
 /* ===================================
@@ -522,6 +523,11 @@ SERVICES PAGE
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 20px;
+}
+.service-image{
+width:100%;
+height:220px;
+object-fit:cover;
 }
 
 .service-meta {
