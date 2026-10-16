@@ -1,75 +1,94 @@
 <?php
 // login.php
 session_start();
-
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    
-    if (!empty($email) && !empty($password)) {
-        // Store user info in session
-        $_SESSION['user_id'] = 1;
-        $_SESSION['user_name'] = explode('@', $email)[0];
-        $_SESSION['user_email'] = $email;
-        $_SESSION['user_phone'] = '+27 71 234 5678';
-        
-        header("Location: dashboard.php");
-        exit();
-    } else {
-        $error = 'Please enter both email and password.';
-    }
-}
+include 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login | The Gentlemen's Bar</title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-</head>
-<body>
-    <header>
-        <div class="logo-container">
-            <img src="assets/logo.jpeg" class="logo-small" alt="The Gentlemen's Bar Logo">
-            <span class="brand-name">The Gentlemen's Bar</span>
+
+<div class="card" style="max-width: 400px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <img src="Assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo" style="width: 80px; display: block; margin: 0 auto 20px;">
+    <h2>Login</h2>
+    
+    <div id="login-error" class="alert alert-error" style="color: red; margin-bottom: 15px; display: none;"></div>
+    
+    <form id="login-form" onsubmit="handleLogin(event)">
+        <div style="margin-bottom: 15px;">
+            <input type="email" id="login-email" placeholder="Email Address" autocomplete="email" required style="width: 100%; padding: 10px; box-sizing: border-box;">
         </div>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-        <nav>
-            <a href="index.php">Home</a>
-            <a href="services.php">Services</a>
-            <a href="booking_appointment.php">Book Appointment</a>
-            <a href="login.php">Login</a>
-        </nav>
-    </header>
-
-    <div class="card">
-        <img src="assets/logo.jpeg" alt="The Gentlemen's Bar Logo" class="logo">
-        <h2>Customer Login</h2>
         
-        <?php if ($error): ?>
-            <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
-        <?php endif; ?>
-        
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email Address" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" name="login">Login</button>
-        </form>
+        <div style="margin-bottom: 20px;">
+            <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required style="width: 100%; padding: 10px; box-sizing: border-box;">
+        </div>
 
-        <p style="margin-top: 15px; font-size: 14px; color: #888;">
-            Don't have an account? 
-            <a href="register.php" style="font-weight: bold;">Register Here</a>
-        </p>
-    </div>
+        <button type="submit" style="width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Login</button>
+    </form>
 
-    <script>
-    function toggleMobileMenu() {
-        const nav = document.querySelector('header nav');
-        nav.classList.toggle('show');
+    <p style="margin-top: 15px; font-size: 14px; text-align: center;">
+        Don't have an account? 
+        <a href="register.php" style="font-weight: bold; color: #000;">Register Here</a>
+    </p>
+</div>
+
+<script>
+function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById("login-email").value.trim().toLowerCase();
+    const password = document.getElementById("login-password").value;
+    const errorDiv = document.getElementById("login-error");
+    
+    errorDiv.style.display = "none";
+
+    if (typeof firebase === "undefined" || !firebase.auth) {
+        errorDiv.textContent = "Firebase configuration error. Please refresh and try again.";
+        errorDiv.style.display = "block";
+        return;
     }
-    </script>
 
-    <?php include 'includes/footer.php'; ?>
-</body>
-</html>
+    // 1. Authenticate securely via Firebase Auth
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            
+            // 2. Fetch role from Firestore users collection
+            window.db.collection("users").doc(user.uid).get()
+                .then((doc) => {
+                    let role = "customer";
+                    let userName = "Customer";
+                    if (doc.exists) {
+                        const data = doc.data();
+                        role = (data.role || "customer").toLowerCase();
+                        userName = data.name || "Customer";
+                    }
+
+                    // 3. Send session data to PHP handler backend
+                    fetch('set_session.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            uid: user.uid,
+                            email: user.email,
+                            name: userName,
+                            role: role
+                        })
+                    }).then(() => {
+                        // 4. Route to correct dashboard based on role or whitelisted staff emails
+                        if (role === "staff" || role === "admin" || email === "william@gmail.com" || email === "randy@gmail.com" || email === "xxx@gmail.com" || email === "admin@gmail.com") {
+                            window.location.href = "staff_dashboard.php";
+                        } else {
+                            window.location.href = "dashboard.php";
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.warn("Firestore error, defaulting to customer dashboard:", err);
+                    window.location.href = "dashboard.php";
+                });
+        })
+        .catch((error) => {
+            console.error("Login error:", error.code, error.message);
+            errorDiv.textContent = "Invalid email or password. Please try again.";
+            errorDiv.style.display = "block";
+        });
+}
+</script>
+
+<?php include 'includes/footer.php'; ?>

@@ -1,6 +1,8 @@
 <?php
 // includes/header.php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // services
 $services = [
@@ -31,11 +33,30 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Gentlemen's Bar</title>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <!-- Firebase App (Core SDK) & Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      // Initialize Firebase using your actual project credentials
+      if (!firebase.apps.length) {
+          firebase.initializeApp({
+              apiKey: "AIzaSyBceoCExF8pRVzOjWz0-WzyuduqbmdnSU0",
+              authDomain: "thegentlemen-sbar.firebaseapp.com",
+              projectId: "thegentlemen-sbar",
+              storageBucket: "thegentlemen-sbar.firebasestorage.app"
+          });
+      }
+      const db = firebase.firestore();
+      const auth = firebase.auth();
+      window.db = db;
+    </script>
 </head>
 <body>
 <header>
     <div class="logo-container">
-        <img src="assets/logo.jpeg" class="logo-small" alt="The Gentlemen's Bar Logo">
+        <img src="Assets/logo.jpeg" class="logo-small" alt="The Gentlemen's Bar Logo">
         <span class="brand-name">The Gentlemen's Bar</span>
     </div>
     <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
@@ -43,15 +64,28 @@ $isLoggedIn = isset($_SESSION['user_id']);
         <a href="index.php">Home</a>
         <a href="services.php">Services</a>
         <a href="booking_appointment.php">Book Appointment</a>
+        <a href="shop.php">Shop</a>
         <?php if ($isLoggedIn): ?>
             <a href="dashboard.php">Dashboard</a>
-            <a href="bookings.php">My Bookings</a>
+            <a href="my_bookings.php">My Bookings</a>
             <a href="payment.php">Payments</a>
             <a href="logout.php">Logout</a>
         <?php else: ?>
             <a href="register.php">Register</a>
             <a href="login.php">Login</a>
         <?php endif; ?>
+        <a href="cart.php" class="cart-nav-link">
+        🛒 Cart 
+        <span class="cart-counter" style="background: #ff4d4d; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px;">
+            <?php 
+                if (isset($_SESSION['cart'])) {
+                    echo count($_SESSION['cart']);
+                } else {
+                    echo 0;
+                }
+            ?>
+        </span>
+    </a>
     </nav>
 </header>
 
@@ -68,7 +102,6 @@ function toggleMobileMenu() {
     }
 }
 
-// Close menu when clicking on a link
 document.querySelectorAll('header nav a').forEach(link => {
     link.addEventListener('click', () => {
         const nav = document.querySelector('header nav');
