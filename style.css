@@ -357,7 +357,7 @@ button, .btn-primary, .btn-book {
 }
 
 button:hover, .btn-primary:hover, .btn-book:hover {
-    background: #333333;
+    background: #252525;
 }
 
 .btn-cancel {
@@ -385,7 +385,7 @@ button:hover, .btn-primary:hover, .btn-book:hover {
 }
 
 .card a:hover {
-    color: #555555;
+    color: #a3a3a3;
 }
 
 /* ===================================
@@ -479,7 +479,7 @@ DASHBOARD
 }
 
 .card-box:hover {
-    background: #1A1A1A;
+    background: #838383;
 }
 
 .card-box:hover h3,
