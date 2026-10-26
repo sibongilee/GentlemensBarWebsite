@@ -16,7 +16,7 @@ include 'includes/header.php';
         <h1>The Gentleman's Shop</h1>
         <p>Browse our premium grooming products and professional barber tools.</p>
     </div>
-//products 
+    
     <div class="services-grid">
         <form action="api/add_to_cart.php" method="POST" class="service-card">
             <div class="service-card-inner">
