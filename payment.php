@@ -39,17 +39,7 @@ if (isset($_SESSION['payments']) && !empty($_SESSION['payments'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payments | The Gentlemen's Bar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
+    <div class="payment-page">
         <div class="page-header">
             <h1>Payments</h1>
             <p class="tagline">Complete your payment to confirm your appointment</p>
@@ -66,20 +56,31 @@ if (isset($_SESSION['payments']) && !empty($_SESSION['payments'])) {
         <?php if (empty($pending_payments)): ?>
             <div class="empty-state">
                 <p>You have no pending payments.</p>
-                <a href="booking_appointment.php" class="btn-primary" style="display: inline-block; width: auto; margin-top: 15px;">Book an Appointment</a>
+                <a href="booking_appointment.php" class="btn-primary payment-empty-cta">Book an Appointment</a>
             </div>
         <?php else: ?>
-            <div class="payments-list">
-                <h2>Pending Payments (<?php echo count($pending_payments); ?>)</h2>
+            <div class="payments-section">
+                <h2>Pending Payments <span class="badge"><?php echo count($pending_payments); ?></span></h2>
+                <div class="payments-cards">
                 <?php foreach ($pending_payments as $index => $payment): ?>
-                    <div class="payment-card" id="payment-card-<?php echo $index; ?>">
-                        <div class="payment-details">
+                    <div class="payment-card pending" id="payment-card-<?php echo $index; ?>">
+                        <div class="payment-header">
                             <h3><?php echo htmlspecialchars($payment['service_name']); ?></h3>
-                            <p><strong>Appointment:</strong> <?php echo date('F j, Y', strtotime($payment['appointment_date'])); ?> at <?php echo date('g:i A', strtotime($payment['appointment_time'])); ?></p>
-                            <p><strong>Amount Due:</strong> <span style="color: #C4A77D; font-size: 1.2rem;">R <?php echo number_format($payment['amount'], 2); ?></span></p>
+                            <span class="payment-status-badge pending">Pending</span>
                         </div>
-                        <div class="payment-actions">
-                            <form method="POST" action="process_payment.php" id="payment-form-<?php echo $index; ?>" onsubmit="return validatePaymentForm(<?php echo $index; ?>, event)">
+                        <div class="payment-body">
+                            <div class="payment-info">
+                                <div class="info-row">
+                                    <span class="info-label">Appointment</span>
+                                    <span class="info-value"><?php echo date('F j, Y', strtotime($payment['appointment_date'])); ?> at <?php echo date('g:i A', strtotime($payment['appointment_time'])); ?></span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Amount Due</span>
+                                    <span class="info-value amount">R <?php echo number_format($payment['amount'], 2); ?></span>
+                                </div>
+                            </div>
+
+                            <form method="POST" action="process_payment.php" id="payment-form-<?php echo $index; ?>" class="payment-form" onsubmit="return validatePaymentForm(<?php echo $index; ?>, event)">
                                 <input type="hidden" name="payment_id" value="<?php echo $payment['payment_id']; ?>">
                                 <input type="hidden" name="amount" value="<?php echo $payment['amount']; ?>">
                                 
@@ -124,6 +125,7 @@ if (isset($_SESSION['payments']) && !empty($_SESSION['payments'])) {
                         </div>
                     </div>
                 <?php endforeach; ?>
+                </div>
             </div>
         <?php endif; ?>
     </div>
@@ -257,7 +259,5 @@ if (isset($_SESSION['payments']) && !empty($_SESSION['payments'])) {
             });
         });
     </script>
-</body>
-</html>
 
 <?php include 'includes/footer.php'; ?>

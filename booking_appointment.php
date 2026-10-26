@@ -100,19 +100,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
 }
 ?>
 
-<div class="booking-container" style="padding: 40px; max-width: 600px; margin: auto;">
+<div class="booking-container booking-compact">
     <div class="page-header">
         <h1>Book an Appointment</h1>
         <p>Schedule your next grooming session with us.</p>
     </div>
     
     <?php if ($error): ?>
-        <div class="alert alert-error" style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     
     <?php if ($success): ?>
-        <div class="alert alert-success" style="color: green; margin-bottom: 15px;">
-            <?php echo htmlspecialchars($success); ?> <a href="payment.php">Go to Payments</a>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars($success); ?> <a href="payment.php" class="booking-success-link">Go to Payments</a>
         </div>
 
         <script>
@@ -145,13 +145,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
         </script>
     <?php endif; ?>
     
-    <div class="booking-form-container">
+    <div class="booking-form-container card-inner">
         <form method="POST" class="booking-form">
             
             <!-- Service Dropdown -->
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="service_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Service</label>
-                <select name="service_id" id="service_id" required style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label for="service_id">Select Service</label>
+                <select name="service_id" id="service_id" required>
                     <option value="">-- Choose a service --</option>
                     <?php foreach ($services as $s): ?>
                         <option value="<?php echo $s['id']; ?>" <?php echo ($selected_service == $s['id']) ? 'selected' : ''; ?>>
@@ -162,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
             </div>
             
            <!-- Barber Dropdown -->
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="barber" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Barber</label>
-                <select name="barber" id="barber" required style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label for="barber">Select Barber</label>
+                <select name="barber" id="barber" required>
                     <option value="">-- Choose your barber --</option>
                     <option value="William">William (Barber One)</option>
                     <option value="Randy">Randy (Barber Two)</option>
@@ -172,15 +172,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
             </div>
 
             <!-- Select Date -->
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label for="appointment_date" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Date</label>
-                <input type="date" name="appointment_date" id="appointment_date" min="<?php echo date('Y-m-d'); ?>" required style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label for="appointment_date">Select Date</label>
+                <input type="date" name="appointment_date" id="appointment_date" min="<?php echo date('Y-m-d'); ?>" required>
             </div>
             
             <!-- Select Time -->
-            <div class="form-group" style="margin-bottom: 20px;">
-                <label for="appointment_time" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Time</label>
-                <select name="appointment_time" id="appointment_time" required style="width: 100%; padding: 8px;">
+            <div class="form-group">
+                <label for="appointment_time">Select Time</label>
+                <select name="appointment_time" id="appointment_time" required>
                     <option value="">-- Choose a time --</option>
                     <?php foreach ($time_slots as $value => $label): ?>
                         <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
@@ -188,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
                 </select>
             </div>
             
-            <button type="submit" name="book_appointment" class="btn-primary" style="padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Book Appointment</button>
+            <button type="submit" name="book_appointment" class="btn-primary">Book Appointment</button>
         
         </form>
     </div>

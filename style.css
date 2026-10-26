@@ -823,6 +823,12 @@ PAYMENT PAGE STYLES
     padding: 20px;
 }
 
+.payment-empty-cta {
+    display: inline-block;
+    width: auto;
+    margin-top: 15px;
+}
+
 .payment-summary-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -976,6 +982,14 @@ PAYMENT PAGE STYLES
 
 .payment-body {
     padding: 25px;
+}
+
+.payment-form .payment-method-select {
+    margin-bottom: 12px;
+}
+
+.payment-form .btn-primary {
+    margin-top: 12px;
 }
 
 .payment-info {
@@ -1349,6 +1363,25 @@ BOOKING APPOINTMENT PAGE STYLES
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.booking-compact {
+    max-width: 680px;
+    padding: 30px 20px;
+}
+
+.booking-form-container {
+    margin-top: 18px;
+}
+
+.booking-success-link {
+    color: #155724;
+    font-weight: 700;
+    margin-left: 6px;
+}
+
+.booking-success-link:hover {
+    color: #0E401A;
 }
 
 /* Two Column Layout */
