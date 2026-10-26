@@ -73,7 +73,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #CCCCCC;
+    color: #9c9c9ce5;
 }
 
 /* ===================================
@@ -144,7 +144,7 @@ nav {
     }
     
     nav a:hover {
-        background: #333333;
+        background: #4d282869;
     }
 }
 
@@ -152,7 +152,7 @@ nav {
     nav {
         top: 65px;
     }
-}
+    
     header {
         flex-wrap: wrap;
         padding: 10px 20px;
@@ -185,6 +185,37 @@ nav {
         font-size: 15px;
         letter-spacing: 1px;
     }
+}
+}
+/* ===================================
+FOOTER
+=================================== */
+footer {
+    background: #1A1A1A;
+    color: #FFFFFF;
+    padding: 25px 40px;
+    margin-top: auto;
+    border-top: 3px solid #333333;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+.footer-content p {
+    color: #AAAAAA;
+    margin: 0;
+}
+
+.footer-content .credits span {
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
 /* ===================================
@@ -293,7 +324,7 @@ CARDS & BOXES
     background: #FFFFFF;
     border-radius: 16px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.822);
     border: 1px solid #E0E0E0;
 }
 
@@ -357,7 +388,7 @@ button, .btn-primary, .btn-book {
 }
 
 button:hover, .btn-primary:hover, .btn-book:hover {
-    background: #252525;
+    background: #333333;
 }
 
 .btn-cancel {
@@ -379,13 +410,13 @@ button:hover, .btn-primary:hover, .btn-book:hover {
 }
 
 .card a {
-    color: #1A1A1A;
+    color: #1a1a1afb;
     text-decoration: none;
     font-weight: bold;
 }
 
 .card a:hover {
-    color: #a3a3a3;
+    color: #807c7cde;
 }
 
 /* ===================================
@@ -456,14 +487,18 @@ DASHBOARD
 
 .card-box {
     width: 240px;
-    min-height: 120px;
-    padding: 20px;
+    min-height: 118px;
+    padding:19px;
     background: #FFFFFF;
     color: #1A1A1A;
     border-radius: 16px;
     text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     border: 1px solid #E0E0E0;
 }
 
@@ -474,17 +509,17 @@ DASHBOARD
 }
 
 .card-box p {
-    font-size: 13px;
+    font-size: 16px;
     color: #888888;
 }
 
 .card-box:hover {
-    background: #838383;
+    background: #464647cb;
 }
 
 .card-box:hover h3,
 .card-box:hover p {
-    color: #FFFFFF;
+    color: #ffffffe5;
 }
 
 /* ===================================
@@ -493,73 +528,125 @@ SERVICES PAGE
 .services-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 16px 20px;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 40px 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
 }
 
 .service-card {
     background: #FFFFFF;
     border-radius: 16px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     border: 1px solid #E0E0E0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.service-card h3 {
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.service-card-inner {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    align-items: stretch;
+    padding: 14px;
+    height: 100%;
+}
+
+.service-image {
+    width: 170px;
+    min-width: 170px;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.service-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.service-content h3 {
     color: #1A1A1A;
-    margin-bottom: 15px;
-    font-size: 22px;
+    margin: 0 0 8px;
+    font-size: 18px;
 }
 
 .service-desc {
     color: #888888;
     font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-.service-image{
-width:100%;
-height:220px;
-object-fit:cover;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    flex: 1;
 }
 
 .service-meta {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 10px 0;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 8px 0;
     border-top: 1px solid #E0E0E0;
     border-bottom: 1px solid #E0E0E0;
 }
 
 .service-duration {
     color: #888888;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .service-price {
     font-weight: bold;
     color: #1A1A1A;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .btn-book {
-    width: auto;
-    padding: 10px 25px;
-    margin-top: 0;
-    background: #1A1A1A;
-    color: white;
+    width: 100%;
+    padding: 11px 16px;
+    margin-top: auto;
+    display: inline-block;
+    text-align: center;
 }
 
-.btn-book:hover {
-    background: #333333;
+@media (max-width: 900px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-card-inner {
+        flex-direction: column;
+    }
+
+    .service-image {
+        width: 100%;
+        min-width: 0;
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-card-inner {
+        padding: 12px;
+    }
+
+    .service-image {
+        height: 180px;
+    }
 }
 
 /* ===================================
@@ -1106,36 +1193,7 @@ PAYMENT PAGE STYLES
     color: #888888;
 }
 
-/* ===================================
-FOOTER
-=================================== */
-footer {
-    background: #1A1A1A;
-    color: #FFFFFF;
-    padding: 25px 40px;
-    margin-top: auto;
-    border-top: 3px solid #333333;
-    width: 100%;
-}
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-size: 14px;
-}
-
-.footer-content p {
-    color: #AAAAAA;
-    margin: 0;
-}
-
-.footer-content .credits span {
-    color: #FFFFFF;
-    font-weight: bold;
-}
 
 /* ===================================
 RESPONSIVE LOGO SIZES
@@ -1494,5 +1552,105 @@ BOOKING APPOINTMENT PAGE STYLES
     .btn-book-appointment {
         padding: 14px;
         font-size: 15px;
+    }
+}
+
+/* ===================================
+CARD INNER STYLES
+=================================== */
+.cart-item-card.card-inner,
+.cart-item-card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 18px 20px;
+}
+
+.booking-form-container.card-inner,
+.booking-form.card-inner {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid #E0E0E0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+}
+
+/* ===================================
+CART STYLES
+=================================== */
+.cart-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cart-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.cart-item-details {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-item-image {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #E0E0E0;
+    flex-shrink: 0;
+}
+
+.cart-item-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.cart-item-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1A1A;
+    word-break: break-word;
+}
+
+.cart-item-price {
+    color: #1A1A1A;
+    font-weight: 600;
+}
+
+.cart-item-remove {
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.cart-item-remove:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .cart-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-item-details {
+        width: 100%;
+    }
+
+    .cart-item-remove {
+        margin-left: 0;
     }
 }
