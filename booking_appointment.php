@@ -100,19 +100,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
 }
 ?>
 
-<div class="booking-container booking-compact">
+<div class="booking-container" style="padding: 40px; max-width: 600px; margin: auto;">
     <div class="page-header">
         <h1>Book an Appointment</h1>
         <p>Schedule your next grooming session with us.</p>
     </div>
     
     <?php if ($error): ?>
-        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-error" style="color: red; margin-bottom: 15px;"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
     
     <?php if ($success): ?>
-        <div class="alert alert-success">
-            <?php echo htmlspecialchars($success); ?> <a href="payment.php" class="booking-success-link">Go to Payments</a>
+        <div class="alert alert-success" style="color: green; margin-bottom: 15px;">
+            <?php echo htmlspecialchars($success); ?> <a href="payment.php">Go to Payments</a>
         </div>
 
         <script>
@@ -132,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         source: "Website"
                     })
-                  
                     .then((docRef) => {
                         console.log("Booking successfully synced, ID: ", docRef.id);
                     })
@@ -145,13 +144,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
         </script>
     <?php endif; ?>
     
-    <div class="booking-form-container card-inner">
-        <form method="POST" class="booking-form">
+    <div class="booking-form-container">
+        <form method="POST" class="booking-form" id="bookingForm">
             
             <!-- Service Dropdown -->
-            <div class="form-group">
-                <label for="service_id">Select Service</label>
-                <select name="service_id" id="service_id" required>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="service_id" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Service</label>
+                <select name="service_id" id="service_id" required style="width: 100%; padding: 8px;">
                     <option value="">-- Choose a service --</option>
                     <?php foreach ($services as $s): ?>
                         <option value="<?php echo $s['id']; ?>" <?php echo ($selected_service == $s['id']) ? 'selected' : ''; ?>>
@@ -162,9 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
             </div>
             
            <!-- Barber Dropdown -->
-            <div class="form-group">
-                <label for="barber">Select Barber</label>
-                <select name="barber" id="barber" required>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="barber" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Barber</label>
+                <select name="barber" id="barber" required style="width: 100%; padding: 8px;">
                     <option value="">-- Choose your barber --</option>
                     <option value="William">William (Barber One)</option>
                     <option value="Randy">Randy (Barber Two)</option>
@@ -172,26 +171,106 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_appointment'])) 
             </div>
 
             <!-- Select Date -->
-            <div class="form-group">
-                <label for="appointment_date">Select Date</label>
-                <input type="date" name="appointment_date" id="appointment_date" min="<?php echo date('Y-m-d'); ?>" required>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="appointment_date" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Date</label>
+                <input type="date" name="appointment_date" id="appointment_date" required style="width: 100%; padding: 8px;">
+                <small id="holiday-warning" style="color: #d9534f; display: none; font-weight: bold; margin-top: 5px;"></small>
             </div>
             
             <!-- Select Time -->
-            <div class="form-group">
-                <label for="appointment_time">Select Time</label>
-                <select name="appointment_time" id="appointment_time" required>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="appointment_time" style="display: block; font-weight: bold; margin-bottom: 5px;">Select Time</label>
+                <select name="appointment_time" id="appointment_time" required style="width: 100%; padding: 8px;">
                     <option value="">-- Choose a time --</option>
                     <?php foreach ($time_slots as $value => $label): ?>
                         <option value="<?php echo $value; ?>"><?php echo $label; ?></option>
                     <?php endforeach; ?>
                 </select>
+                <small id="time-error" style="color: #d9534f; display: none; margin-top: 5px;">You cannot select a time in the past for today.</small>
             </div>
             
-            <button type="submit" name="book_appointment" class="btn-primary">Book Appointment</button>
+            <button type="submit" name="book_appointment" id="submitBtn" class="btn-primary" style="padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Book Appointment</button>
         
         </form>
     </div>
 </div><br><br>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('appointment_date');
+    const timeSelect = document.getElementById('appointment_time');
+    const timeError = document.getElementById('time-error');
+    const holidayWarning = document.getElementById('holiday-warning');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // 1. Restrict past dates using local date string (YYYY-MM-DD)
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+    
+    dateInput.setAttribute('min', todayStr);
+
+    // Cache for fetched holidays to reduce API calls
+    const holidayCache = {};
+
+    async function checkSouthAfricanHolidays(dateString) {
+        const selectedYear = dateString.split('-')[0];
+        
+        if (holidayCache[selectedYear]) {
+            return holidayCache[selectedYear].find(h => h.date === dateString);
+        }
+
+        try {
+            const response = await fetch(`https://api.zanode.co.za/api/holidays?year=${selectedYear}`);
+            const result = await response.json();
+            
+            if (result.status === "success" && result.data && result.data.holidays) {
+                holidayCache[selectedYear] = result.data.holidays;
+                return holidayCache[selectedYear].find(h => h.date === dateString);
+            }
+        } catch (err) {
+            console.error("Could not reach South African public holiday API:", err);
+        }
+        return null;
+    }
+
+    async function validateBookingForm() {
+        const selectedDate = dateInput.value;
+        const selectedTime = timeSelect.value;
+
+        if (!selectedDate) return;
+
+        // Reset warnings
+        timeError.style.display = 'none';
+        holidayWarning.style.display = 'none';
+        submitBtn.disabled = false;
+
+        // Check South African Public Holidays API
+        const holiday = await checkSouthAfricanHolidays(selectedDate);
+        if (holiday) {
+            holidayWarning.textContent = `Note: ${selectedDate} is a South African Public Holiday (${holiday.name}). Operating hours may vary.`;
+            holidayWarning.style.display = 'block';
+        }
+
+        // Check if selected time is in the past for today
+        if (selectedDate === todayStr && selectedTime) {
+            const currentHours = String(today.getHours()).padStart(2, '0');
+            const currentMinutes = String(today.getMinutes()).padStart(2, '0');
+            const currentTimeStr = `${currentHours}:${currentMinutes}`;
+
+            if (selectedTime < currentTimeStr) {
+                timeError.style.display = 'block';
+                timeSelect.value = ''; // Reset invalid time
+                submitBtn.disabled = true;
+            }
+        }
+    }
+
+    dateInput.addEventListener('change', validateBookingForm);
+    timeSelect.addEventListener('change', validateBookingForm);
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>

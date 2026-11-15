@@ -17,6 +17,11 @@ include 'includes/header.php';
         
         <div style="margin-bottom: 20px;">
             <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required style="width: 100%; padding: 10px; box-sizing: border-box;">
+            
+            <!-- Forgot Password Link -->
+            <div style="margin-top: 8px; text-align: right;">
+                <a href="forgot_password.php" style="color: #666; font-size: 13px; text-decoration: none;">Forgot Password?</a>
+            </div>
         </div>
 
         <button type="submit" style="width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Login</button>
@@ -70,8 +75,10 @@ function handleLogin(event) {
                             role: role
                         })
                     }).then(() => {
-                        // 4. Route to correct dashboard based on role or whitelisted staff emails
-                        if (role === "staff" || role === "admin" || email === "william@gmail.com" || email === "randy@gmail.com" || email === "xxx@gmail.com" || email === "admin@gmail.com") {
+                        // 4. Strict Routing with precise UIDs and Emails
+                        if (email === "xxx@gmail.com" || user.uid === "S6XWLYukAaanstSPnIM8icQYEn53") {
+                            window.location.href = "admin_dashboard.php";
+                        } else if (email === "william@gmail.com" || user.uid === "SpdzcLf3ZWYpWI0yWB2aO6qAkBp2" || email === "randy@gmail.com" || user.uid === "ER9szZ3C2CcYqneC4L5sEIOx3Bf2") {
                             window.location.href = "staff_dashboard.php";
                         } else {
                             window.location.href = "dashboard.php";
