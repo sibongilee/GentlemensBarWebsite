@@ -2,7 +2,13 @@
 // order_success.php
 session_start();
 include 'includes/header.php';
+
 $order = $_SESSION['last_order'] ?? null;
+
+if ($order) {
+    unset($_SESSION['cart']);
+    $_SESSION['cart'] = [];
+}
 ?>
 
 <div class="shop-header-section">
@@ -29,7 +35,6 @@ $order = $_SESSION['last_order'] ?? null;
 
         <a href="shop.php" class="btn-primary" style="text-decoration: none; padding: 12px 25px; background: #000; color: #fff; border-radius: 4px; display: inline-block; font-weight: bold;">Back to Shop</a>
 
-        <!-- Sync script integrated here -->
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 if (typeof db !== "undefined") {
@@ -46,11 +51,10 @@ $order = $_SESSION['last_order'] ?? null;
                     .then(() => {
                         console.log("Shop order successfully synced!");
                     })
-                  .catch((error) => {
-    // This will print the exact error code and message to your F12 Console
-    console.error("Firebase Error Code:", error.code);
-    console.error("Firebase Error Message:", error.message);
-});
+                    .catch((error) => {
+                        console.error("Firebase Error Code:", error.code);
+                        console.error("Firebase Error Message:", error.message);
+                    });
                 }
             });
         </script>

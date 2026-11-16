@@ -2,7 +2,13 @@
 // order_success.php
 session_start();
 include 'includes/header.php';
+
 $order = $_SESSION['last_order'] ?? null;
+
+if ($order) {
+    unset($_SESSION['cart']);
+    $_SESSION['cart'] = [];
+}
 ?>
 
 <div class="shop-header-section">
